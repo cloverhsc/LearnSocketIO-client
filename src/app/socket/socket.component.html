@@ -1,0 +1,6 @@
+<p>socket works!</p>
+<input type="text" [formControl]="msg" />
+<button (click)="sendMessage()">Send</button>
+<p>Message : {{ msg.value }}</p>
+
+<button (click)="leave()">Leave</button>
