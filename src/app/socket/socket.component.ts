@@ -13,14 +13,28 @@ export class SocketComponent implements OnInit, OnDestroy {
   private socket: any;
   msg = new FormControl('');
 
+  joinRoom1 = { user: 'clover', room: 'room1', channel: 'vip' };
+
   constructor() {}
 
   ngOnInit(): void {
-    this.joinSocket('chat', 'room1', 'message').subscribe((data: any) => {
+    /* this.joinSocket('chat', 'room1', 'message').subscribe((data: any) => {
+      console.log(data);
+    }); */
+    this.socket = io(this.url);
+    this.socket.nsp = '/chat';
+    this.socket.on('connect', () => {
+      console.log('Socket connected');
+    });
+
+    this.socket.on('message', (data: any) => {
       console.log(data);
     });
   }
 
+  joinRoom() {
+    this.socket.emit('join', this.joinRoom1);
+  }
   ngOnDestroy(): void {
     this.disconnectSocket();
   }
@@ -54,11 +68,17 @@ export class SocketComponent implements OnInit, OnDestroy {
   joinSocket(
     namespace: string,
     roomName: string,
-    channelname: string
+    channelname: string,
+    user: string
   ): Observable<any> {
     return new Observable((observer: Observer<any>) => {
       this.socket = io(this.url);
       this.socket.nsp = '/' + namespace;
+      this.socket.emit('join', {
+        user: user,
+        room: roomName,
+        channel: channelname,
+      });
       this.socket.on(channelname, (data: any) => {
         if (data) {
           observer.next(data);
