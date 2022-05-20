@@ -6,7 +6,7 @@ import { io } from 'socket.io-client';
 @Component({
   selector: 'app-socket',
   templateUrl: './socket.component.html',
-  styleUrls: ['./socket.component.scss'],
+  styleUrls: ['./socket.component.scss']
 })
 export class SocketComponent implements OnInit, OnDestroy {
   url = 'http://localhost:3000';
@@ -18,28 +18,35 @@ export class SocketComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnInit(): void {
-    /* this.joinSocket('chat', 'room1', 'message').subscribe((data: any) => {
-      console.log(data);
-    }); */
-    this.socket = io(this.url);
-    this.socket.nsp = '/chat';
-    this.socket.on('connect', () => {
-      console.log('Socket connected');
-    });
+    this.connectSocket('chat');
+  }
 
-    this.socket.on('message', (data: any) => {
-      console.log(data);
+  getIO() {
+    this.socket.emit('list');
+  }
+
+  leaveRoom() {
+    this.socket.emit('leave', {
+      user: this.joinRoom1.user,
+      room: this.joinRoom1.room,
+      channel: this.joinRoom1.channel
     });
   }
 
   joinRoom() {
     this.socket.emit('join', this.joinRoom1);
   }
+
   ngOnDestroy(): void {
     this.disconnectSocket();
   }
 
   sendMessage() {
+    const message = {
+      user: this.joinRoom1.user,
+      message: this.msg.value,
+      room: this.joinRoom1.room
+    };
     console.log(this.msg.value);
     this.socket.emit('message', this.msg.value);
   }
@@ -62,6 +69,9 @@ export class SocketComponent implements OnInit, OnDestroy {
       this.socket.on('connect', () => {
         console.log('Socket connected');
       });
+      this.socket.on('message', (data: any) => {
+        console.log(data);
+      });
     }
   }
 
@@ -77,7 +87,7 @@ export class SocketComponent implements OnInit, OnDestroy {
       this.socket.emit('join', {
         user: user,
         room: roomName,
-        channel: channelname,
+        channel: channelname
       });
       this.socket.on(channelname, (data: any) => {
         if (data) {
