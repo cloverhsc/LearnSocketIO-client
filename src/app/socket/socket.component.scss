@@ -1,0 +1,23 @@
+#main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.chat {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #ccc;
+  overflow: auto;
+}
+
+#msg, #msg2 {
+  width: 500px;
+  height: 500px;
+  border: 1px solid #ccc;
+  overflow: auto;
+}
+
+.socket1, .socket2 {
+  border: 1px solid #69a0d6;
+}

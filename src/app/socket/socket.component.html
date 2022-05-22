@@ -1,10 +1,38 @@
-<p>socket works!</p>
-<input type="text" [formControl]="msg" />
-<button (click)="sendMessage()">Send</button>
-<p>Message : {{ msg.value }}</p>
+<div id="main">
+  <div class="chat">
+    <h3>chat message:</h3>
+    <ul id="chat-ul"></ul>
+  </div>
+  <div class="socket1">
+    <p>socket1</p>
+    <input type="text" [formControl]="msg" id="clover-input" />
+    <button (click)="sendMessage('clover')">Send</button>
+    <p>Message : {{ msg.value }}</p>
 
-<button (click)="leave()">Leave</button>
+    <button (click)="connectSocket('chat', 'clover')">Join Chat</button>
 
-<button (click)="joinRoom()">Room1</button>
-<button (click)="leaveRoom()">Leave Room</button>
-<button (click)="getIO()">Get IO</button>
+    <button (click)="joinRoom('clover')">Room1</button>
+    <!-- <button (click)="leaveRoom()">Leave Room</button> -->
+    <button (click)="leave('clover')">Leave</button>
+
+    <div id="msg">
+      <h3>Room1 Message :</h3>
+      <ul id="clover-msg"></ul>
+    </div>
+  </div>
+
+  <div class="socket2">
+    <p>socket1</p>
+    <input type="text" [formControl]="msg2" id="hsc-input" />
+    <button (click)="sendMessage('hsc')">Send</button>
+    <p>Message : {{ msg2.value }}</p>
+
+    <button (click)="connectSocket('chat', 'hsc')">Join Chat</button>
+    <button (click)="joinRoom('hsc')">Room1</button>
+    <button (click)="leave('hsc')">Leave</button>
+    <div id="msg2">
+      <h3>Room1 Message :</h3>
+      <ul id="hsc-msg"></ul>
+    </div>
+  </div>
+</div>
