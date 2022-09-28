@@ -37,7 +37,7 @@ export class SocketComponent implements OnInit, OnDestroy {
   joinRoom(who: string) {
     if (who === 'clover') {
       this.socket.emit('join', this.cloverJoinRoom1);
-      this.socket.on(this.cloverJoinRoom1.room, (data: any) => {
+      this.socket.on(this.cloverJoinRoom1.channel, (data: any) => {
         console.log(data);
         const el = document.createElement('li');
         el.innerHTML = data;
@@ -47,7 +47,7 @@ export class SocketComponent implements OnInit, OnDestroy {
 
     if (who === 'hsc') {
       this.socket1.emit('join', this.hscJoinRoom1);
-      this.socket1.on(this.hscJoinRoom1.room, (data: any) => {
+      this.socket1.on(this.hscJoinRoom1.channel, (data: any) => {
         console.log(data);
         const el = document.createElement('li');
         el.innerHTML = data;
@@ -67,6 +67,7 @@ export class SocketComponent implements OnInit, OnDestroy {
         user: this.cloverJoinRoom1.user,
         message: this.msg.value,
         room: this.cloverJoinRoom1.room,
+        channel: this.cloverJoinRoom1.channel,
       };
 
       this.socket.emit(message.room, message);
@@ -79,6 +80,7 @@ export class SocketComponent implements OnInit, OnDestroy {
         user: this.hscJoinRoom1.user,
         message: this.msg2.value,
         room: this.hscJoinRoom1.room,
+        channel: this.hscJoinRoom1.channel,
       };
 
       this.socket1.emit(message.room, message);
@@ -112,9 +114,9 @@ export class SocketComponent implements OnInit, OnDestroy {
       } else {
         this.socket = io(this.url);
         this.socket.nsp = '/' + namespace;
-        this.socket.on('connect', () => {
-          console.log('Socket connected');
-        });
+        // this.socket.on('connect', () => {
+        //   console.log('Socket1 connected');
+        // });
       }
     }
 
@@ -124,9 +126,9 @@ export class SocketComponent implements OnInit, OnDestroy {
       } else {
         this.socket1 = io(this.url);
         this.socket1.nsp = '/' + namespace;
-        this.socket1.on('connect', () => {
-          console.log('Socket1 connected');
-        });
+        // this.socket1.on('connect', () => {
+        //   console.log('Socket2 connected');
+        // });
       }
     }
 
